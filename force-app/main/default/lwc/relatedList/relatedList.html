@@ -1,0 +1,35 @@
+<template>
+    <div class="slds-box">
+        <lightning-datatable
+            key-field="Id"
+            data={data}
+            columns={columns}
+            sorted-by={sortedBy}
+            sorted-direction={sortedDirection}
+            onsort={handleSort}
+            hide-checkbox-column
+        ></lightning-datatable>
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+        <template if:true={showEditModal}>
+            <lightning-record-edit-form
+                record-id={selectedRecord.Id}
+                object-api-name={objectApiName}
+                onsubmit={handleSave}
+                oncancel={handleCancel}
+            >
+                <template for:each={columns} for:item="column">
+                    <lightning-input-field
+                        key={column.fieldName}
+                        field-name={column.fieldName}
+                    ></lightning-input-field>
+                </template>
+                <div class="slds-m-top_medium">
+                    <lightning-button variant="brand" type="submit" label="Save"></lightning-button>
+                    <lightning-button type="button" label="Cancel" onclick={handleCancel}></lightning-button>
+                </div>
+            </lightning-record-edit-form>
+        </template>
+    </div>
+</template>
